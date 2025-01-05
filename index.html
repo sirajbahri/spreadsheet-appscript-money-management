@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+    <title>Form Input Data Keuangan</title>
+    <style>
+      .input-group-text {
+        font-weight: bold;
+      }
+      .form-control {
+        box-sizing: border-box;
+      }
+      .submit-button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .submit-button:hover {
+        background-color: #0056b3;
+      }
+      .button-group button {
+        flex: 1;
+        padding: 10px;
+        margin: 5px;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .button-group button.active {
+        background-color: #007bff;
+      }
+      .button-group button.inactive {
+        background-color: #6c757d;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container py-5">
+      <div class="row">
+        <div class="col-lg-6 col-md-8 mx-auto">
+          <form id="dataForm">
+            <!-- Jumlah -->
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Rp</span>
+              </div>
+              <input type="number" id="jumlah" name="jumlah" class="form-control" placeholder="Masukkan jumlah" required />
+            </div>
+
+            <!-- Tanggal -->
+            <div class="form-group">
+              <label for="tanggal">Tanggal</label>
+              <input type="date" id="tanggal" name="tanggal" class="form-control" required />
+            </div>
+
+            <!-- Waktu -->
+            <div class="form-group">
+              <label for="waktu">Waktu</label>
+              <input type="time" id="waktu" name="waktu" class="form-control" required />
+            </div>
+
+            <!-- Tipe -->
+            <div class="form-group">
+              <label for="tipe">Tipe</label>
+              <div class="button-group">
+                <button type="button" id="pengeluaran" class="btn inactive" onclick="setTipe('Pengeluaran')">Pengeluaran</button>
+                <button type="button" id="pemasukan" class="btn inactive" onclick="setTipe('Pemasukan')">Pemasukan</button>
+              </div>
+              <input type="hidden" id="tipe" name="tipe" />
+            </div>
+
+            <!-- Kategori -->
+            <div class="form-group">
+              <label for="kategori">Kategori</label>
+              <select id="kategori" name="kategori" class="form-control" required></select>
+            </div>
+
+            <!-- Subkategori  -->
+            <div class="form-group">
+              <label for="subkategori">Subkategori</label>
+              <select id="subkategori" name="subkategori" class="form-control"></select>
+            </div>
+
+            <!-- Mode Pembayaran -->
+            <div class="form-group">
+              <label for="modePembayaran">Mode Pembayaran</label>
+              <select id="modePembayaran" name="modePembayaran" class="form-control" required>
+                <option value="">Pilih Mode Pembayaran</option>
+                <option value="E-Wallet">E-Wallet</option>
+                <option value="Mobile Payment">Mobile Payment</option>
+                <option value="Cash">Cash</option>
+                <option value="Kartu Kredit">Kartu Kredit</option>
+                <option value="Transfer Bank">Transfer Bank</option>
+              </select>
+            </div>
+
+            <!-- Pembayaran -->
+            <div class="form-group">
+              <label for="pembayaran">Pembayaran</label>
+              <select id="pembayaran" name="pembayaran" class="form-control" required>
+                <option value="">Pilih Pembayaran</option>
+                <option value="Gopay">Gopay</option>
+                <option value="ShopeePay">ShopeePay</option>
+                <option value="DANA">DANA</option>
+                <option value="i.saku">i.saku</option>
+                <option value="BRI">BRI</option>
+                <option value="SeaBank">SeaBank</option>
+                <option value="Bank Jago">Bank Jago</option>
+                <option value="Flip">Flip</option>
+                <option value="Blu BCA">Blu BCA</option>
+                <option value="Permata Bank">Permata Bank</option>
+                <option value="Neobank">Neobank</option>
+                <option value="SuperBank">SuperBank</option>
+                <option value="Lainnya">Lainnya</option>
+              </select>
+            </div>
+
+            <!-- Nama -->
+            <div class="form-group">
+              <label for="nama">Nama</label>
+              <select id="nama" name="nama" class="form-control" required>
+                <option value="">Pilih Nama</option>
+                <option value="Saya">Saya</option>
+                <option value="Ayah">Ayah</option>
+                <option value="Ibu">Ibu</option>
+                <option value="Zen">Zen</option>
+                <option value="Zaki">Zaki</option>
+                <option value="Lainnya">Lainnya</option>
+              </select>
+            </div>
+
+            <!-- Detail -->
+            <div class="form-group">
+              <label for="detail">Catatan</label>
+              <textarea id="detail" name="detail" class="form-control" placeholder="Masukkan Catatn transaksi" rows="3"></textarea>
+            </div>
+
+            <!-- Status -->
+            <div class="form-group">
+              <label for="status">Status</label>
+              <select id="status" name="status" class="form-control" required>
+                <option value="">Pilih Status</option>
+                <option value="Selesai">Selesai</option>
+                <option value="Pending">Pending</option>
+                <option value="Dibatalkan">Dibatalkan</option>
+                <option value="Hutang">Hutang</option>
+              </select>
+            </div>
+
+            <!-- Bukti Pembayaran -->
+            <div class="form-group">
+              <label for="buktiPembayaran">Bukti Pembayaran</label>
+              <input type="file" id="buktiPembayaran" name="buktiPembayaran" class="form-control" accept="image/*" required />
+            </div>
+
+            <button type="submit" class="submit-button">SUBMIT DATA</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+
+      // Data kategori dan subkategori
+      const kategoriData = {
+        Pengeluaran: {
+          "Pulsa & Tagihan": ["Pulsa", "PLN", "Tagihan", "Lainnya"],
+          "Shopping": ["Sabun, Shampoo", "Kucing, Hewan", "Baju, dll", "Elektronik", "Gift", "Maintenance", "Lainnya"],
+          "Transportasi": ["Parkir", "Transportasi Publik", "Lainnya"],
+          "Life & Entertaiment": ["Holiday", "Education", "Langganan", "Lainnya"],
+          "Komunikasi, PC": ["Internet", "Software, Apps, Game", "Serivice", "Lainnya"],
+          "Lainnya": ["Lainnya"],
+        },
+        Pemasukan: {
+          "Gaji": ["Gaji Pokok", "Lembur", "Tunjangan", "THR"],
+          "Bonus": ["Bonus Tahunan", "Bonus Proyek", "Insentif"],
+          "Investasi": ["Saham", "Reksadana", "Deposito", "P2P Lending"],
+          "Orangtua": ["Orangtua"],
+        }
+      };
+
+      // Setup Select2 untuk semua dropdown
+      $(document).ready(function () {
+        $("#kategori, #subkategori, #pembayaran, #nama").select2({
+          placeholder: "Pilih",
+          allowClear: true
+        });
+      });
+
+      // Fungsi untuk mengatur tipe dan kategori
+      function setTipe(tipe) {
+        document.getElementById("tipe").value = tipe;
+        const kategoriDropdown = $("#kategori");
+        kategoriDropdown.empty();
+
+        // Mendapatkan kategori berdasarkan tipe
+        const kategoriList = Object.keys(kategoriData[tipe]).map(kategori => ({
+          value: kategori,
+          text: kategori
+        }));
+
+        // Menambahkan opsi ke dropdown kategori
+        kategoriList.forEach((kategori) => {
+          const newOption = new Option(kategori.text, kategori.value);
+          kategoriDropdown.append(newOption);
+        });
+
+        // Reset dropdowns
+        kategoriDropdown.val("").trigger("change");
+        $("#subkategori").empty().val("").trigger("change");
+        
+        // Update tampilan button
+        $(".btn").removeClass("active").addClass("inactive");
+        $(`#${tipe.toLowerCase()}`).removeClass("inactive").addClass("active");
+      }
+
+      // Event listener untuk perubahan kategori
+      $("#kategori").on("change", function() {
+        const tipe = document.getElementById("tipe").value;
+        const kategori = $(this).val();
+        const subkategoriDropdown = $("#subkategori");
+        
+        subkategoriDropdown.empty();
+
+        if (kategori) {
+          const subkategoriList = kategoriData[tipe][kategori];
+          
+          subkategoriList.forEach((subkategori) => {
+            const newOption = new Option(subkategori, subkategori);
+            subkategoriDropdown.append(newOption);
+          });
+        }
+
+        subkategoriDropdown.trigger("change");
+      });
+
+
+      // Form submit handler
+      <!-- Modifikasi pada bagian JavaScript form submit -->
+
+document.getElementById('dataForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const scriptURL = 'LINK_APPSCRIPT';
+    
+    // Mengambil file gambar
+    const fileInput = document.getElementById('buktiPembayaran');
+    const file = fileInput.files[0];
+    
+    // Membuat form data untuk mengirim file
+    const formDataUpload = new FormData();
+    if (file) {
+        // Mengkonversi gambar ke base64
+        const base64Image = await convertToBase64(file);
+        formDataUpload.append('fileContent', base64Image);
+        formDataUpload.append('fileName', file.name);
+        formDataUpload.append('mimeType', file.type);
+    }
+    
+    // Data form
+    const formData = {
+          jumlah: document.getElementById('jumlah').value,
+          tanggal: document.getElementById('tanggal').value,
+          waktu: document.getElementById('waktu').value,
+          tipe: document.getElementById('tipe').value,
+          kategori: document.getElementById('kategori').value,
+          subkategori: document.getElementById('subkategori').value,
+          modePembayaran: document.getElementById('modePembayaran').value,
+          pembayaran: document.getElementById('pembayaran').value,
+          nama: document.getElementById('nama').value,
+          detail: document.getElementById('detail').value,
+          status: document.getElementById('status').value,
+        };
+        
+
+    // Menambahkan data form ke FormData
+    formDataUpload.append('formData', JSON.stringify(formData));
+    
+    // Menampilkan loading
+    const submitButton = document.querySelector('.submit-button');
+    submitButton.disabled = true;
+    submitButton.innerHTML = 'Mengunggah...';
+    
+    try {
+        const response = await fetch(scriptURL, {
+            method: 'POST',
+            body: formDataUpload
+        });
+        
+        const data = await response.json();
+        
+        if (data.status === 'success') {
+            alert('Data berhasil disimpan! Link file: ' + data.fileUrl);
+            document.getElementById('dataForm').reset();
+        } else {
+            alert('Terjadi kesalahan: ' + data.message);
+        }
+    } catch (error) {
+        alert('Error: ' + error.toString());
+    } finally {
+        submitButton.disabled = false;
+        submitButton.innerHTML = 'SUBMIT DATA';
+    }
+});
+
+// Fungsi untuk menampilkan alert
+function showAlert(type, message) {
+  const alertId = type === 'success' ? 'successAlert' : 'errorAlert';
+  const alert = document.getElementById(alertId);
+  
+  if (type === 'error') {
+    document.getElementById('errorMessage').textContent = message;
+  }
+  
+  alert.classList.add('show');
+  
+  // Hilangkan alert setelah 5 detik
+  setTimeout(() => {
+    alert.classList.remove('show');
+  }, 5000);
+}
+
+// Event listener untuk tombol close pada alert
+document.querySelectorAll('.close').forEach(button => {
+  button.addEventListener('click', function() {
+    const alert = this.closest('.alert');
+    alert.classList.remove('show');
+  });
+});
+
+// Modifikasi pada bagian fetch dalam event submit
+document.getElementById('dataForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  
+  const scriptURL = 'PASTE_YOUR_DEPLOYMENT_URL_HERE';
+  
+  // ... kode fetch yang sudah ada ...
+
+  try {
+    const response = await fetch(scriptURL, {
+      method: 'POST',
+      body: formDataUpload
+    });
+    
+    const data = await response.json();
+    
+    if (data.status === 'success') {
+      showAlert('success'); // Tampilkan alert sukses
+      document.getElementById('dataForm').reset();
+    } else {
+      showAlert('error', data.message); // Tampilkan alert error
+    }
+  } catch (error) {
+    showAlert('error', error.toString()); // Tampilkan alert error
+  } finally {
+    submitButton.disabled = false;
+    submitButton.innerHTML = 'SUBMIT DATA';
+  }
+});
+
+// Fungsi untuk mengkonversi file ke base64
+function convertToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = error => reject(error);
+    });
+}
+
+    </script>
+  </body>
+</html>
